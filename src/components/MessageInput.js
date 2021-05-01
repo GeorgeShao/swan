@@ -8,7 +8,7 @@ class MessageInput extends Component {
       <InputGroup size="md">
         <Input placeholder="Enter Message..." />
         <InputRightElement>
-          <IconButton h="1.75rem" size="md" icon={<ArrowUpIcon/>} colorScheme="purple"/>
+          <IconButton h="1.75rem" size="md" marginEnd="10px" icon={<ArrowUpIcon/>} colorScheme="purple"/>
         </InputRightElement>
       </InputGroup>
     )
