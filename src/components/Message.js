@@ -17,7 +17,7 @@ class Message extends Component {
     >
         <Box p="6">
           <Box d="flex" alignItems="baseline">
-            <Badge borderRadius="full" px="2" colorScheme={this.props.colorScheme} color={this.props.color} bg={this.props.bg}>
+            <Badge borderRadius="full" px="2" colorScheme={this.props.colorScheme}>
               {this.props.username}
             </Badge>
             <Box
