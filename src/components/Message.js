@@ -1,12 +1,7 @@
-// Importing combination
-import React, { Component } from "react";
-import { Box, Image, Badge, Text } from "@chakra-ui/react";
+import React, { Component } from 'react';
+import { Box, Badge } from '@chakra-ui/react';
 
 class Message extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render(){
     return (
       <Box
@@ -34,7 +29,6 @@ class Message extends Component {
 
           <Box
             mt="1"
-            // fontWeight="semibold"
             as="h4"
             lineHeight="tight"
             d="flex"
@@ -49,5 +43,4 @@ class Message extends Component {
   }
 }
 
-// Exporting the component
 export default Message;

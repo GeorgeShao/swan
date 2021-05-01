@@ -1,4 +1,3 @@
-// Importing combination
 import React, {Component} from 'react';
 
 class ChangeColor extends Component {
@@ -24,5 +23,4 @@ class ChangeColor extends Component {
 }
 }
 
-// Exporting the component
 export default ChangeColor;
