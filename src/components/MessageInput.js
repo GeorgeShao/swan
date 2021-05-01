@@ -5,10 +5,10 @@ import { ArrowUpIcon } from '@chakra-ui/icons'
 class MessageInput extends Component {
   render(){
     return (
-      <InputGroup size="sm">
+      <InputGroup size="md">
         <Input placeholder="Enter Message..." />
         <InputRightElement>
-          <IconButton h="1.75rem" size="sm" icon={<ArrowUpIcon/>} colorScheme="purple"/>
+          <IconButton h="1.75rem" size="md" icon={<ArrowUpIcon/>} colorScheme="purple"/>
         </InputRightElement>
       </InputGroup>
     )

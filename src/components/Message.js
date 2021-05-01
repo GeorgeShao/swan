@@ -5,7 +5,6 @@ class Message extends Component {
   render(){
     return (
       <Box
-        maxW="sm"
         borderWidth="1px"
         borderRadius="lg"
         overflow="hidden"
