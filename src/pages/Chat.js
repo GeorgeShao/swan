@@ -1,10 +1,8 @@
-import React, { Component, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Box } from '@chakra-ui/react'
-import ChangeColor from '../components/Example'
 import Message from '../components/Message'
 import ThemeToggle from '../components/ThemeToggle'
-import MessageInput from '../components/MessageInput'
 import { InputGroup, Input, InputRightElement, IconButton } from '@chakra-ui/react'
 import { ArrowUpIcon } from '@chakra-ui/icons'
 import { Formik, Field, Form } from "formik";
