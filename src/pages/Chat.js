@@ -5,6 +5,9 @@ import ChangeColor from '../components/Example'
 import Message from '../components/Message'
 import ThemeToggle from '../components/ThemeToggle'
 import MessageInput from '../components/MessageInput'
+import { InputGroup, Input, InputRightElement, IconButton } from '@chakra-ui/react'
+import { ArrowUpIcon } from '@chakra-ui/icons'
+import { Formik, Field, Form } from "formik";
 
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import API, { graphqlOperation } from '@aws-amplify/api';
@@ -12,6 +15,9 @@ import { listMessages } from '../graphql/queries';
 
 
 function Chat() {
+  const handleChange = () => {};
+  const handleSubmit = () => {};
+
   const items = []
   for (var i = 0; i < 11; i++) {
     items.push(<Message
@@ -21,6 +27,7 @@ function Chat() {
           date="May 1, 2021"
           time="2:30 PM"/>)
   }
+
   return (
     <div>
       <Box maxW="xl" margin="0" height="100vh" >
@@ -49,7 +56,30 @@ function Chat() {
             time="2:30 PM"/>
           {items}
         </Box>
-        <MessageInput/>
+        <Formik
+          initialValues={{ message: "Sasuke" }}
+          onSubmit={(values, actions) => {
+            setTimeout(() => {
+              alert(JSON.stringify(values, null, 2))
+              actions.setSubmitting(false)
+            }, 1000)
+          }}
+        >
+          {(props) => (
+            <Form>
+              <Field name="message">
+                {({ field, form }) => (
+                  <InputGroup size="md">
+                    <Input {...field} name="message" placeholder="Enter Message..."/>
+                    <InputRightElement>
+                      <IconButton h="1.75rem" size="md" marginEnd="10px" icon={<ArrowUpIcon/>} colorScheme="purple" type="submit"/>
+                    </InputRightElement>
+                  </InputGroup>
+                )}
+              </Field>
+            </Form>
+          )}
+        </Formik>
       </Box>
       <AmplifySignOut />
     </div>
