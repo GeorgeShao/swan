@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Box } from '@chakra-ui/react'
+import { Box, Center, Flex, Grid, Spacer, Text, Button } from '@chakra-ui/react'
 import Message from '../components/Message'
 import ThemeToggle from '../components/ThemeToggle'
 import { InputGroup, Input, InputRightElement, IconButton } from '@chakra-ui/react'
@@ -76,54 +76,73 @@ function Chat() {
     }
   };
 
+  const signOut = () => {
+    Auth.signOut()
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+    window.location.reload();
+  }
+
   return (
     <div>
-      <Box maxW="xl" margin="0" height="100vh" >
-        <Box margin="0" height="95%" overflowY='scroll' sx={{
-          '&::-webkit-scrollbar': {
-            width: `20px`,
-          },
-          '&::-webkit-scrollbar-thumb': {
-            background: `#e9d8fd`,
-            borderRadius: `20px`,
-            border: `6px solid transparent`,
-            backgroundClip: `content-box`,
-          },
-          '&::-webkit-scrollbar-thumb:vertical:hover': {
-            background: `#815ad5`,
-            borderRadius: `20px`,
-            border: `6px solid transparent`,
-            backgroundClip: `content-box`,
-          }
-        }}>
-          {messages.map((message) => (
-            <Message
-              key={message.id}
-              username={message.username}
-              text={message.text}
-              colorScheme="purple"
-              date={message.createdAt}
-              time="X:XX PM"/>
-          ))}
-        </Box>
-        <Formik>
-          {(props) => (
-            <Form onSubmit={handleSubmit}>
-              <Field name="message">
-                {({ field, form }) => (
-                  <InputGroup size="md">
-                    <Input {...field} name="message" placeholder="Enter Message..." disabled={userInfo === null} onChange={handleChange} value={messageBody}/>
-                    <InputRightElement>
-                      <IconButton h="1.75rem" size="md" marginEnd="10px" icon={<ArrowUpIcon/>} colorScheme="purple" type="submit" onSubmit={handleSubmit}/>
-                    </InputRightElement>
-                  </InputGroup>
-                )}
-              </Field>
-            </Form>
-          )}
-        </Formik>
-      </Box>
-      <AmplifySignOut />
+      <Grid templateColumns="repeat(3, 1fr)">
+        <Flex>
+          <Text fontSize="3xl" marginLeft="4" color="#815ad5">swan</Text>
+          <Spacer />
+        </Flex>
+        <Center>
+          <Box maxW="xl" width="xl" margin="0" height="100vh" >
+            <Box margin="0" height="95%" overflowY='scroll' sx={{
+              '&::-webkit-scrollbar': {
+                width: `20px`,
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: `#e9d8fd`,
+                borderRadius: `20px`,
+                border: `6px solid transparent`,
+                backgroundClip: `content-box`,
+              },
+              '&::-webkit-scrollbar-thumb:vertical:hover': {
+                background: `#815ad5`,
+                borderRadius: `20px`,
+                border: `6px solid transparent`,
+                backgroundClip: `content-box`,
+              }
+            }}>
+              {messages.map((message) => (
+                <Message
+                  key={message.id}
+                  username={message.username}
+                  text={message.text}
+                  colorScheme="purple"
+                  date={message.createdAt}
+                  time="X:XX PM"/>
+              ))}
+            </Box>
+            <Formik>
+              {(props) => (
+                <Form onSubmit={handleSubmit}>
+                  <Field name="message">
+                    {({ field, form }) => (
+                      <InputGroup size="md">
+                        <Input {...field} name="message" placeholder="Enter Message..." disabled={userInfo === null} onChange={handleChange} value={messageBody}/>
+                        <InputRightElement>
+                          <IconButton h="1.75rem" size="md" marginEnd="10px" icon={<ArrowUpIcon/>} colorScheme="purple" type="submit" onSubmit={handleSubmit}/>
+                        </InputRightElement>
+                      </InputGroup>
+                    )}
+                  </Field>
+                </Form>
+              )}
+            </Formik>
+          </Box>
+        </Center>
+        <Flex>
+          <Spacer />
+          <ThemeToggle />
+          <Button onClick={signOut} size="lg" colorScheme="purple" marginRight="2" marginTop="2">Sign Out</Button>
+        </Flex>
+      </Grid>
     </div>
   )
 }
