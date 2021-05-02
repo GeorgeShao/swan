@@ -15,18 +15,22 @@ import { listMessages } from '../graphql/queries';
 
 
 function Chat() {
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    API
+      .graphql(graphqlOperation(listMessages))
+      .then((response) => {
+        const items = response.data?.listMessages?.items;
+        
+        if (items) {
+          setMessages(items);
+        }
+      });
+  }, []);
+
   const handleChange = () => {};
   const handleSubmit = () => {};
-
-  const items = []
-  for (var i = 0; i < 11; i++) {
-    items.push(<Message
-          username="george.gsg"
-          text="Hey! I'm George. Nice to meet you. I have some spare time. Not doing much right now. Let's talk!"
-          colorScheme="purple"
-          date="May 1, 2021"
-          time="2:30 PM"/>)
-  }
 
   return (
     <div>
@@ -48,17 +52,20 @@ function Chat() {
             backgroundClip: `content-box`,
           }
         }}>
-          <Message
-            username="george.gsg"
-            text="Hey! I'm George. Nice to meet you. I have some spare time. Not doing much right now. Let's talk!"
-            colorScheme="purple"
-            date="May 1, 2021"
-            time="2:30 PM"/>
-          {items}
+          {messages.map((message) => (
+            <Message
+              key={message.id}
+              username={message.username}
+              text={message.text}
+              colorScheme="purple"
+              date={message.createdAt}
+              time="X:XX PM"/>
+          ))}
         </Box>
         <Formik
-          initialValues={{ message: "Sasuke" }}
+          initialValues={{ message: "" }}
           onSubmit={(values, actions) => {
+            // insert handleSubmit code here
             setTimeout(() => {
               alert(JSON.stringify(values, null, 2))
               actions.setSubmitting(false)
