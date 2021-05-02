@@ -12,10 +12,12 @@ import { Formik, Field, Form } from "formik";
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import API, { graphqlOperation } from '@aws-amplify/api';
 import { messagesByChannelID } from '../graphql/queries';
-
+import { onCreateMessage } from '../graphql/subscriptions';
+import { createMessage } from '../graphql/mutations';
 
 function Chat() {
   const [messages, setMessages] = useState([]);
+  const [messageBody, setMessageBody] = useState('');
 
   useEffect(() => {
     API
@@ -32,8 +34,41 @@ function Chat() {
       })
   }, []);
 
-  const handleChange = () => {};
-  const handleSubmit = () => {};
+  useEffect(() => {
+    const subscription = API
+      .graphql(graphqlOperation(onCreateMessage))
+      .subscribe({
+        next: (event) => {
+          setMessages([...messages, event.value.data.onCreateMessage]);
+        }
+      });
+    
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [messages]);
+
+  const handleChange = (event) => {
+    setMessageBody(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const input = {
+      channelID: 'general',
+      username: 'george.gsg',
+      text: messageBody.trim()
+    };
+
+    try {
+      setMessageBody('');
+      await API.graphql(graphqlOperation(createMessage, { input }))
+    } catch (error) {
+      console.warn(error);
+    }
+  };
 
   return (
     <div>
@@ -65,24 +100,15 @@ function Chat() {
               time="X:XX PM"/>
           ))}
         </Box>
-        <Formik
-          initialValues={{ message: "" }}
-          onSubmit={(values, actions) => {
-            // insert handleSubmit code here
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2))
-              actions.setSubmitting(false)
-            }, 1000)
-          }}
-        >
+        <Formik>
           {(props) => (
-            <Form>
+            <Form onSubmit={handleSubmit}>
               <Field name="message">
                 {({ field, form }) => (
                   <InputGroup size="md">
-                    <Input {...field} name="message" placeholder="Enter Message..."/>
+                    <Input {...field} name="message" placeholder="Enter Message..." onChange={handleChange} value={messageBody}/>
                     <InputRightElement>
-                      <IconButton h="1.75rem" size="md" marginEnd="10px" icon={<ArrowUpIcon/>} colorScheme="purple" type="submit"/>
+                      <IconButton h="1.75rem" size="md" marginEnd="10px" icon={<ArrowUpIcon/>} colorScheme="purple" type="submit" onSubmit={handleSubmit}/>
                     </InputRightElement>
                   </InputGroup>
                 )}
