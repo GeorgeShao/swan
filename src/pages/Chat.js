@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import { Box } from '@chakra-ui/react'
 import ChangeColor from '../components/Example'
 import Message from '../components/Message'
@@ -50,9 +51,10 @@ class Chat extends Component {
           </Box>
           <MessageInput/>
         </Box>
+        <AmplifySignOut />
       </div>
     )
   }
 }
 
-export default Chat;
+export default withAuthenticator(Chat);
