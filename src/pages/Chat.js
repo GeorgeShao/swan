@@ -10,6 +10,7 @@ import { ArrowUpIcon } from '@chakra-ui/icons'
 import { Formik, Field, Form } from "formik";
 
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
+import { Auth } from '@aws-amplify/auth';
 import API, { graphqlOperation } from '@aws-amplify/api';
 import { messagesByChannelID } from '../graphql/queries';
 import { onCreateMessage } from '../graphql/subscriptions';
@@ -18,6 +19,13 @@ import { createMessage } from '../graphql/mutations';
 function Chat() {
   const [messages, setMessages] = useState([]);
   const [messageBody, setMessageBody] = useState('');
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    Auth.currentUserInfo().then((userInfo) => {
+      setUserInfo(userInfo)
+    })
+  }, [])
 
   useEffect(() => {
     API
@@ -58,7 +66,7 @@ function Chat() {
 
     const input = {
       channelID: 'general',
-      username: 'george.gsg',
+      username: userInfo.username,
       text: messageBody.trim()
     };
 
@@ -106,7 +114,7 @@ function Chat() {
               <Field name="message">
                 {({ field, form }) => (
                   <InputGroup size="md">
-                    <Input {...field} name="message" placeholder="Enter Message..." onChange={handleChange} value={messageBody}/>
+                    <Input {...field} name="message" placeholder="Enter Message..." disabled={userInfo === null} onChange={handleChange} value={messageBody}/>
                     <InputRightElement>
                       <IconButton h="1.75rem" size="md" marginEnd="10px" icon={<ArrowUpIcon/>} colorScheme="purple" type="submit" onSubmit={handleSubmit}/>
                     </InputRightElement>
