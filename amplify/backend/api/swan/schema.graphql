@@ -1,0 +1,7 @@
+type Message @model {
+  id: ID!
+  username: String!
+  text: String!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}

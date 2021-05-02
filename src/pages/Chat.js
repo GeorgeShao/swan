@@ -1,10 +1,15 @@
-import React, { Component } from 'react'
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
+import React, { Component, useEffect, useState } from 'react'
+
 import { Box } from '@chakra-ui/react'
 import ChangeColor from '../components/Example'
 import Message from '../components/Message'
 import ThemeToggle from '../components/ThemeToggle'
 import MessageInput from '../components/MessageInput'
+
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
+import API, { graphqlOperation } from '@aws-amplify/api';
+import { listMessages } from '../graphql/queries';
+
 
 class Chat extends Component {
   render(){
@@ -13,8 +18,6 @@ class Chat extends Component {
       items.push(<Message
             username="george.gsg"
             text="Hey! I'm George. Nice to meet you. I have some spare time. Not doing much right now. Let's talk!"
-            imageUrl="https://bit.ly/2Z4KKcF"
-            imageAlt="Rear view of modern home with pool"
             colorScheme="purple"
             date="May 1, 2021"
             time="2:30 PM"/>)
@@ -42,8 +45,6 @@ class Chat extends Component {
             <Message
               username="george.gsg"
               text="Hey! I'm George. Nice to meet you. I have some spare time. Not doing much right now. Let's talk!"
-              imageUrl="https://bit.ly/2Z4KKcF"
-              imageAlt="Rear view of modern home with pool"
               colorScheme="purple"
               date="May 1, 2021"
               time="2:30 PM"/>

@@ -36,7 +36,6 @@ class Message extends Component {
             {this.props.text}
           </Box>
         </Box>
-        {/* <Image src={this.props.imageUrl} alt={this.props.imageAlt} /> */}
       </Box>
     );
   }
