@@ -11,7 +11,7 @@ import { Formik, Field, Form } from "formik";
 
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import API, { graphqlOperation } from '@aws-amplify/api';
-import { listMessages } from '../graphql/queries';
+import { messagesByChannelID } from '../graphql/queries';
 
 
 function Chat() {
@@ -19,14 +19,17 @@ function Chat() {
 
   useEffect(() => {
     API
-      .graphql(graphqlOperation(listMessages))
+      .graphql(graphqlOperation(messagesByChannelID, {
+        channelID: 'general',
+        sortDirection: 'ASC'
+      }))
       .then((response) => {
-        const items = response.data?.listMessages?.items;
-        
+        const items = response?.data?.messagesByChannelID?.items;
+
         if (items) {
           setMessages(items);
         }
-      });
+      })
   }, []);
 
   const handleChange = () => {};
