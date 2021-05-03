@@ -1,5 +1,6 @@
 # swan
 A basic online chat app with user authentication and dark mode support.
+
 Built With: React, Chakra UI, and AWS (Amplify, AppSync, DynamoDB, GraphQL)
 
 **Hosted App URL: [https://master.dqxj02f8bgao6.amplifyapp.com/](https://master.dqxj02f8bgao6.amplifyapp.com/)**
